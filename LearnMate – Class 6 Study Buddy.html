@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LearnMate – Class 6 Study Buddy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&display=swap">
+<style>
+:root{--bg:#eef6ff;--card:#fff;--ink:#1d2b4f;--mut:#6b7a99;--line:#dbe6f7;--blue:#3a7bd5;--org:#ff9f1c;--grn:#2fb36b;--shadow:0 4px 0 #cfe0f7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a2e;--card:#1c2742;--ink:#eef2ff;--mut:#9fb0d3;--line:#2c3a5e;--shadow:0 4px 0 #0c1324;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a2e;--card:#1c2742;--ink:#eef2ff;--mut:#9fb0d3;--line:#2c3a5e;--shadow:0 4px 0 #0c1324;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;display:flex;justify-content:center;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:10px;padding:14px 16px 6px}
+header h1{font-size:20px;font-weight:900;flex:1}
+.back{border:0;background:var(--card);color:var(--ink);width:38px;height:38px;border-radius:12px;font-size:18px;font-weight:900;box-shadow:var(--shadow);cursor:pointer}
+main{flex:1;overflow-y:auto;padding:8px 16px 16px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#3a7bd5,#5aa9ff);color:#fff;border:0}
+.hero h2{font-size:24px;font-weight:900}.hero p{opacity:.92;margin:4px 0 12px}
+.btn{border:0;border-radius:16px;padding:14px 18px;font:900 16px Nunito,system-ui,sans-serif;background:var(--org);color:#3b2400;box-shadow:0 4px 0 #c97a00;cursor:pointer;width:100%}
+.btn.g{background:var(--grn);color:#fff;box-shadow:0 4px 0 #1f8a50}
+.btn.b{background:var(--blue);color:#fff;box-shadow:0 4px 0 #2559a5}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:10px;align-items:center}
+.ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:none}
+.subj{cursor:pointer;display:flex;gap:12px;align-items:center;width:100%;text-align:left;color:var(--ink);font-family:inherit}
+.subj b{font-size:17px;display:block}.subj span{color:var(--mut);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{border:2px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:center;font:800 15px Nunito,system-ui,sans-serif;color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
+.tile i{display:block;font-style:normal;font-size:28px;margin-bottom:4px}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:14px;margin-bottom:10px;font:800 16px Nunito,system-ui,sans-serif;cursor:pointer}
+.opt.ok{border-color:var(--grn);background:#2fb36b26}.opt.no{border-color:#e5484d;background:#e5484d26}
+.bar{height:12px;background:var(--line);border-radius:9px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:9px;transition:width .5s}
+ul{padding-left:20px}li{margin:6px 0}
+.q{font-size:26px;font-weight:900;text-align:center;margin:18px 0}
+.pill{font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px;background:var(--line);color:var(--mut)}
+nav{display:flex;background:var(--card);border-top:2px solid var(--line);padding:6px 4px}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:800 11px Nunito,system-ui,sans-serif;padding:6px 0;cursor:pointer}
+nav button i{display:block;font-style:normal;font-size:20px}
+nav button.on{color:var(--blue)}
+button:focus-visible{outline:3px solid var(--org);outline-offset:2px}
+.big{font-size:44px;font-weight:900}
+.mut{color:var(--mut)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="hd"></header>
+  <main id="mn"></main>
+  <nav id="nv"></nav>
+</div>
+<script>
+const S={english:{n:"English",t:"Read · Write · Grow",i:"📖",c:"#ef476f",
+ l:{t:"Nouns and Verbs",p:["A noun names a person, place, thing or idea.","A verb shows an action or a state.","Every full sentence needs a verb."],e:"The dog (noun) runs (verb) fast."},
+ q:[["Which word is a noun?",["Quickly","Garden","Jump","Blue"],1],["Pick the verb: “Ravi sings loudly.”",["Ravi","sings","loudly","None"],1],["Plural of “child” is…",["childs","childes","children","child"],2],["Opposite of “ancient”?",["Old","Modern","Huge","Quiet"],1]],
+ v:[["Brave","Ready to face danger","She was brave during the storm."],["Curious","Eager to learn","A curious child asks many questions."],["Gentle","Soft and kind","Be gentle with the puppy."]]},
+ maths:{n:"Mathematics",t:"Think · Solve · Improve",i:"🔢",c:"#3a7bd5",
+ l:{t:"Multiplication Tables",p:["Multiplication is repeated addition.","8 × 7 means eight groups of seven.","Order does not matter: 8 × 7 = 7 × 8."],e:"8 × 7 = 56 because 7 added eight times is 56."},
+ q:[["What is 8 × 7?",["45","54","56","63"],2],["What is 9 × 6?",["54","56","63","49"],0],["What is 144 ÷ 12?",["10","11","12","14"],2],["What is 25% of 80?",["15","20","25","40"],1]],
+ v:[["Factor","A number that divides another exactly","3 is a factor of 12."],["Multiple","Result of multiplying by a whole number","15 is a multiple of 5."],["Fraction","A part of a whole","½ is a fraction."]]},
+ science:{n:"Science",t:"Explore · Discover · Learn",i:"🔬",c:"#2fb36b",
+ l:{t:"The Water Cycle",p:["Water evaporates from oceans, lakes and rivers.","It condenses to form clouds.","It falls as precipitation (rain).","It collects in rivers, lakes and oceans."],e:"The Sun heats a lake, the water rises, forms clouds and returns as rain."},
+ q:[["Water turning into vapour is called…",["Condensation","Evaporation","Precipitation","Melting"],1],["Clouds form by…",["Evaporation","Freezing","Condensation","Rain"],2],["Plants make food by…",["Digestion","Photosynthesis","Respiration","Erosion"],1],["Which gas do plants take in?",["Oxygen","Nitrogen","Carbon dioxide","Helium"],2]],
+ v:[["Photosynthesis","Process by which green plants make their own food using sunlight, carbon dioxide and water","Plants use photosynthesis to grow."],["Evaporation","Liquid changing into vapour","Puddles vanish by evaporation."],["Habitat","Natural home of a living thing","A pond is a frog’s habitat."]]},
+ social:{n:"Social Science",t:"Our World · Our History",i:"🌍",c:"#9b5de5",
+ l:{t:"Maps and Directions",p:["The four main directions are North, South, East and West.","A map key explains the symbols used.","A scale shows real distance on a map."],e:"If the Sun rises on your right, you are facing north."},
+ q:[["The Sun rises in the…",["West","North","East","South"],2],["A map’s key explains…",["Distance","Symbols","Time","Weather"],1],["Which is the largest continent?",["Africa","Europe","Asia","Australia"],2],["The capital of India is…",["Mumbai","New Delhi","Chennai","Kolkata"],1]],
+ v:[["Continent","A very large landmass","Asia is a continent."],["Equator","Imaginary line around the middle of Earth","India lies north of the equator."],["Democracy","Rule by the people","India is a democracy."]]},
+ tamil:{n:"Tamil",t:"Read · Understand · Shine",i:"🍃",c:"#f4a261",
+ l:{t:"தமிழ் எழுத்துகள்",p:["தமிழில் 12 உயிர் எழுத்துகள் உள்ளன.","18 மெய் எழுத்துகள் உள்ளன.","உயிர்மெய் எழுத்துகள் 216."],e:"க் + அ = க"},
+ q:[["உயிர் எழுத்துகள் எத்தனை?",["10","12","18","216"],1],["மெய் எழுத்துகள் எத்தனை?",["12","18","247","30"],1],["தமிழின் முதல் எழுத்து?",["க","அ","ஆ","த"],1],["“நீர்” என்பதன் பொருள்?",["Fire","Water","Wind","Land"],1]],
+ v:[["நீர்","Water","நீர் குடிக்கவும்."],["மரம்","Tree","மரம் நிழல் தரும்."],["புத்தகம்","Book","நான் புத்தகம் படிக்கிறேன்."]]}};
+const K=Object.keys(S);
+let st={scr:"home",sub:null,qi:0,sc:0,pick:null,wi:0,show:false};
+let P={};
+try{P=JSON.parse(localStorage.getItem("lm")||"{}")}catch(e){}
+P.best=P.best||{};P.done=P.done||{};P.name=P.name||"Learner";
+const save=()=>{try{localStorage.setItem("lm",JSON.stringify(P))}catch(e){}};
+const $=id=>document.getElementById(id);
+const go=(s,o)=>{Object.assign(st,{scr:s},o||{});render()};
+function pct(k){return P.best[k]||0}
+function overall(){return Math.round(K.reduce((a,k)=>a+pct(k),0)/K.length)}
+function render(){
+ const m=$("mn"),h=$("hd");let H="",T="LearnMate",back=null;
+ const sub=st.sub&&S[st.sub];
+ if(st.scr=="home"){
+  H=`<div class="card hero"><h2>Hi, ${P.name}! 👋</h2><p>Small steps, big learning. Ready for Class 6?</p><button class="btn" onclick="go('subjects')">▶ Start Learning</button></div>
+  <div class="grid"><button class="tile" onclick="go('subjects')"><i>📚</i>Subjects</button><button class="tile" onclick="go('qpick')"><i>🏆</i>Quiz Time</button><button class="tile" onclick="go('vocab')"><i>💡</i>New Words</button><button class="tile" onclick="go('progress')"><i>📊</i>My Progress</button></div>
+  <div class="card" style="margin-top:12px"><b>Overall progress</b><div class="bar" style="margin-top:8px"><i style="width:${overall()}%;background:var(--grn)"></i></div><span class="mut">${overall()}% · Keep going!</span></div>`;
+ }else if(st.scr=="subjects"){T="Subjects";back="home";
+  H=K.map(k=>`<button class="card subj" onclick="go('lesson',{sub:'${k}'})"><span class="ico" style="background:${S[k].c}33">${S[k].i}</span><div><b>${S[k].n}</b><span>${S[k].t}</span></div></button>`).join("")+`<p class="mut" style="text-align:center">You can also revise what you have learned!</p>`;
+ }else if(st.scr=="lesson"){T=sub.n+" Lesson";back="subjects";const l=sub.l;
+  H=`<div class="card"><h2>${l.t}</h2><b style="display:block;margin-top:10px">Key points</b><ul>${l.p.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+  <div class="card"><b>Example</b><p>${l.e}</p></div>
+  <button class="btn g" onclick="startQ('${st.sub}')">Practice more</button>`;
+  P.done[st.sub]=1;save();
+ }else if(st.scr=="qpick"){T="Quiz Time";back="home";
+  H=`<p class="mut" style="margin-bottom:10px">Test what you have learned. Pick a subject.</p>`+K.map(k=>`<button class="card subj" onclick="startQ('${k}')"><span class="ico" style="background:${S[k].c}33">${S[k].i}</span><div><b>${S[k].n}</b><span>Best score: ${pct(k)}%</span></div></button>`).join("");
+ }else if(st.scr=="quiz"){T=sub.n+" Quiz";back="qpick";const q=sub.q[st.qi];
+  H=`<div class="row" style="justify-content:space-between"><span class="pill">${st.qi+1}/${sub.q.length}</span><span class="pill">Score ${st.sc}</span></div>
+  <div class="bar" style="margin-top:10px"><i style="width:${st.qi/sub.q.length*100}%;background:var(--blue)"></i></div>
+  <div class="q">${q[0]}</div>`+q[1].map((o,i)=>{let c="";if(st.pick!==null){if(i==q[2])c="ok";else if(i==st.pick)c="no"}return `<button class="opt ${c}" ${st.pick!==null?"disabled":""} onclick="ans(${i})">${"ABCD"[i]}. ${o}</button>`}).join("")+
+  `<button class="btn g" ${st.pick===null?"disabled":""} onclick="nextQ()">${st.qi+1==sub.q.length?"Finish":"Next"}</button>`;
+ }else if(st.scr=="result"){T="Result";back="qpick";const n=sub.q.length,p=Math.round(st.sc/n*100);
+  H=`<div class="card" style="text-align:center"><div style="font-size:56px">${p>=75?"🌟":p>=50?"👍":"💪"}</div><div class="big">${st.sc}/${n}</div><p class="mut">${p>=75?"Excellent work!":p>=50?"Good job! Practice a bit more.":"Review the lesson and try again."}</p></div>
+  <button class="btn b" onclick="startQ('${st.sub}')" style="margin-bottom:10px">Try again</button><button class="btn g" onclick="go('progress')">See my progress</button>`;
+ }else if(st.scr=="vocab"){T="Vocabulary";back="home";
+  const list=K.flatMap(k=>S[k].v.map(v=>[...v,k]));const w=list[st.wi%list.length];
+  H=`<div class="card" style="text-align:center"><span class="pill">${S[w[3]].n}</span><div class="big" style="font-size:34px;margin:12px 0">${w[0]}</div>
+  ${st.show?`<p><b>Meaning:</b> ${w[1]}</p><p class="mut" style="margin-top:8px"><b>Example:</b> ${w[2]}</p>`:`<button class="btn b" onclick="st.show=true;render()">Show meaning</button>`}</div>
+  <div class="row"><button class="btn" onclick="st.wi=(st.wi+list.length-1)%list.length;st.show=false;render()">◀ Back</button><button class="btn g" onclick="st.wi++;st.show=false;render()">Next ▶</button></div>
+  <p class="mut" style="text-align:center;margin-top:10px">Word ${st.wi%list.length+1} of ${list.length}</p>`;
+ }else if(st.scr=="progress"){T="My Progress";back="home";
+  H=`<div class="card"><div class="row"><span style="font-size:40px">🧒</span><div><b>Good job, ${P.name}!</b><br><span class="mut">Class 6</span></div></div>
+  <b style="display:block;margin-top:12px">Overall progress</b><div class="bar" style="margin:6px 0"><i style="width:${overall()}%;background:var(--grn)"></i></div><span class="mut">${overall()}%</span></div>
+  <div class="card"><b>Subject performance</b>${K.map(k=>`<div style="margin-top:12px"><div class="row" style="justify-content:space-between"><span>${S[k].i} ${S[k].n}</span><b>${pct(k)}%</b></div><div class="bar"><i style="width:${pct(k)}%;background:${S[k].c}"></i></div></div>`).join("")}</div>
+  <p class="mut" style="text-align:center">⭐ Keep going! You’re doing great!</p>
+  <button class="btn" style="margin-top:12px" onclick="rename()">Change my name</button>`;
+ }
+ h.innerHTML=(back?`<button class="back" aria-label="Back" onclick="go('${back}')">←</button>`:"")+`<h1>${T}</h1><button class="back" aria-label="Toggle theme" onclick="theme()">◐</button>`;
+ m.innerHTML=H;m.scrollTop=0;
+ const nav=[["home","🏠","Home"],["subjects","📚","Subjects"],["qpick","🏆","Quiz"],["vocab","💡","Words"],["progress","📊","Progress"]];
+ const grp={lesson:"subjects",quiz:"qpick",result:"qpick"};const cur=grp[st.scr]||st.scr;
+ $("nv").innerHTML=nav.map(n=>`<button class="${n[0]==cur?"on":""}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join("");
+}
+function startQ(k){go("quiz",{sub:k,qi:0,sc:0,pick:null})}
+function ans(i){if(st.pick!==null)return;st.pick=i;if(i==S[st.sub].q[st.qi][2])st.sc++;render()}
+function nextQ(){const n=S[st.sub].q.length;if(st.qi+1>=n){const p=Math.round(st.sc/n*100);P.best[st.sub]=Math.max(P.best[st.sub]||0,p);save();go("result")}else{st.qi++;st.pick=null;render()}}
+function rename(){const n=prompt("Your name?",P.name);if(n){P.name=n.trim().slice(0,20)||"Learner";save();render()}}
+function theme(){const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=d?"light":"dark"}
+render();
+</script>
+</body>
+</html>
